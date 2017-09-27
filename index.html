@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<!--  Mobile viewport scale | Disable user zooming as the layout is optimised -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<title>Assitance Tracking</title>
+		<meta name="theme-color" content="#2ecc71">
+		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+		<!-- Vue -->
+		<script src="assets/js/vue.min.js"></script>
+		<!-- Firebase -->
+		<script src="assets/js/firebase.js"></script>
+		<!-- VueFire -->
+		<script src="assets/js/vuefire.min.js"></script>
+	</head>
+
+	<body class="container">
+
+		<div id="app">
+			<h1>Hello World</h1>
+			<ul>
+				<li  v-for="student in students">
+          			{{ student.name }}
+        		</li>
+			</ul>
+		</div>
+
+
+		<script>
+			var firebaseApp = firebase.initializeApp({
+				apiKey: "AIzaSyD55hWzofdzvhaq7Rl11rm72cXTM3WJDLY",
+				authDomain: "hdgd-classes.firebaseapp.com",
+				databaseURL: "https://hdgd-classes.firebaseio.com",
+				projectId: "hdgd-classes",
+				storageBucket: "hdgd-classes.appspot.com",
+				messagingSenderId: "539712798069"
+			})
+			var db = firebaseApp.database()
+			var studentsRef = db.ref('students');
+
+			var vm = new Vue({
+				el: '#app',
+				firebase: {
+					students: studentsRef
+				},
+			})
+		</script>
+	</body>
+
+</html>
