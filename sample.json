@@ -1,68 +1,85 @@
 {
+	"startingDate": "28 September 2017",
 	"students": [
 		{
+			"id": 0,
 			"name": "Bernardo",
-			"days": 0
+			"hours": 0
 		},
 		{
+			"id": 1,
 			"name": "Raúl",
-			"days": 0
+			"hours": 0
 		},
 		{
+			"id": 2,
 			"name": "Albert Sánchez",
-			"days": 0
+			"hours": 0
 		},
 		{
+			"id": 3,
 			"name": "Carlos García",
-			"days": 0
+			"hours": 0
 		},
 		{
+			"id": 4,
 			"name": "Alberto Martínez",
-			"days": 0
+			"hours": 0
 		},
 		{
+			"id": 5,
 			"name": "Lucas",
-			"days": 0
+			"hours": 0
 		},
 		{
+			"id": 6,
 			"name": "Carlos Aronja",
-			"days": 0
+			"hours": 0
 		},
 		{
+			"id": 7,
 			"name": "Adri",
-			"days": 0
+			"hours": 0
 		},
 		{
+			"id": 8,
 			"name": "Roger",
-			"days": 0
+			"hours": 0
 		},
 		{
-			"name": "Èric",
-			"days": 0
+			"id": 9,
+			"name": "Eric",
+			"hours": 0
 		},
 		{
+			"id": 10,
 			"name": "David",
-			"days": 0
+			"hours": 0
 		},
 		{
+			"id": 11,
 			"name": "Rubén",
-			"days": 0
+			"hours": 0
 		},
 		{
+			"id": 12,
 			"name": "Diego",
-			"days": 0
+			"hours": 0
 		},
 		{
+			"id": 13,
 			"name": "Artur",
-			"days": 0
+			"hours": 0
 		},
 		{
+			"id": 14,
 			"name": "Gemma",
-			"days": 0
+			"hours": 0
 		},
 		{
+			"id": 15,
 			"name": "Marc",
-			"days": 0
+			"hours": 0
 		}
 	]
 }

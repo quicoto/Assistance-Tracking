@@ -5,30 +5,78 @@
 		<!--  Mobile viewport scale | Disable user zooming as the layout is optimised -->
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 		<title>Assitance Tracking</title>
-		<meta name="theme-color" content="#2ecc71">
+		<meta name="theme-color" content="#3498db">
 		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-		<!-- Vue -->
+		<link rel="stylesheet" href="assets/css/custom.css">
+		<script src="assets/js/lodash.min.js"></script>
 		<script src="assets/js/vue.min.js"></script>
-		<!-- Firebase -->
 		<script src="assets/js/firebase.js"></script>
-		<!-- VueFire -->
 		<script src="assets/js/vuefire.min.js"></script>
 	</head>
 
 	<body class="container">
 
-		<div id="app">
-			<h1>Hello World</h1>
-			<ul>
-				<li  v-for="student in students">
-          			{{ student.name }}
-        		</li>
-			</ul>
+		<div id="app" v-cloak>
+			<div class="row">
+				<div class="col">
+					<h2 class="site-title text-center">Assitance Tracking</h2>
+					<!-- <h3>from {{ startingDate }}</h3> -->
+				</div>
+			</div>
+
+			<div class="row" v-if="!userIsLoggedIn">
+				<div class="col">
+					<form>
+						<div class="form-group">
+							<label for="email">Email</label>
+							<input v-model="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
+						</div>
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input v-model="password" type="password" class="form-control" id="password" placeholder="Password">
+						</div>
+						<button type="button" class="btn btn-primary" @click="logIn()">Log in</button>
+					</form>
+				</div>
+			</div>
+
+			<section v-if="userIsLoggedIn">
+				<div class="row">
+					<div class="col">
+						<button v-if="multiplier === 1" type="button" class="btn btn-primary btn-block" v-on:click="multiplier = 2">Single class</button>
+						<button v-if="multiplier === 2" type="button" class="btn btn-primary btn-block" v-on:click="multiplier = 1">Double class</button>
+					</div>
+				</div>
+
+				<form class="" accept-charset="" method="post">
+					<div class="row student-list">
+						<div class="col-12 student" v-for="student in orderedStudents">
+							<div class="row">
+								<div class="col-3 text-center">
+									{{ student.name }}
+								</div>
+
+								<div class="col-3">
+									<button type="button" class="btn btn-success btn-block" v-on:click="increaseTime(student)">+</button>
+								</div>
+
+								<div class="col-3">
+									<button type="button" class="btn btn-danger btn-block" v-on:click="decreaseTime(student)">-</button>
+								</div>
+
+								<div class="col-3 text-center">
+									{{ student.hours }}
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</section>
 		</div>
 
 
 		<script>
-			var firebaseApp = firebase.initializeApp({
+			const firebaseApp = firebase.initializeApp({
 				apiKey: "AIzaSyD55hWzofdzvhaq7Rl11rm72cXTM3WJDLY",
 				authDomain: "hdgd-classes.firebaseapp.com",
 				databaseURL: "https://hdgd-classes.firebaseio.com",
@@ -36,14 +84,72 @@
 				storageBucket: "hdgd-classes.appspot.com",
 				messagingSenderId: "539712798069"
 			})
-			var db = firebaseApp.database()
-			var studentsRef = db.ref('students');
+			const db = firebaseApp.database();
+			const studentsRef = db.ref('students');
 
-			var vm = new Vue({
+			const auth = firebase.auth();
+
+
+
+			const vm = new Vue({
 				el: '#app',
 				firebase: {
-					students: studentsRef
+					students: studentsRef,
+					startingDate: db.ref('startingDate')
 				},
+				data: {
+					multiplier: 2,
+					email: "",
+					password: "",
+					userIsLoggedIn: false
+				},
+				computed: {
+					orderedStudents: function () {
+						return _.orderBy(this.students, 'name')
+					}
+				},
+				mounted: function (){
+					const now = new Date();
+					const today = now.getDay();
+
+					// Thuesday or Thursday
+					// 1 hour, so it's single class multiplier
+					if (today === 2 || today === 4) {
+						this.multiplier = 1;
+					}
+				},
+				beforeCreate: function(){
+					auth.onAuthStateChanged(firebaseUser => {
+						if (firebaseUser) {
+							console.log(firebaseUser);
+							this.userIsLoggedIn = true;
+						} else {
+							console.log('Not logged in');
+						}
+					});
+				},
+				methods: {
+					increaseTime: function(student) {
+						const newHours = parseInt(student['hours']) + parseInt(this.multiplier);
+
+						this.saveTime(student, newHours);
+					},
+					decreaseTime: function(student) {
+						const newHours = parseInt(student['hours']) - parseInt(this.multiplier);
+
+						this.saveTime(student, newHours);
+					},
+					saveTime: function(student, newHours){
+						// We have user logged in, we can save to DB
+						if ( firebase.auth().currentUser ) {
+							studentsRef.child(student['id']).child('hours').set(newHours)
+						}
+					},
+					logIn: function() {
+						const promise = auth.signInWithEmailAndPassword(this.email, this.password);
+						promise.catch(e => console.log(e.message));
+					}
+				}
 			})
 		</script>
 	</body>

@@ -1,0 +1,32 @@
+[v-cloak] {
+  display: none;
+}
+
+body {
+	padding-bottom: 15px;
+	padding-top: 15px;
+}
+
+.site-title {
+	padding: 15px 0;
+}
+
+.form-check {
+	margin-bottom: 0;
+}
+
+.form-check-label {
+	font-size: 18px;
+}
+
+.badge {
+	float: right;
+}
+
+.student-list {
+    padding-top: 25px;    
+}
+
+.student {
+    padding-bottom: 15px;
+}
