@@ -75,7 +75,15 @@
 								</div>
 
 								<div class="col-3 text-center">
-									{{ student.hours }}
+									<span v-if="student.hours > 0">
+										{{ student.hours }}
+									</span>
+									<span v-else>
+										-
+									</span>
+
+									<span v-if="student.hours > 0 && student.hours > 1">hours</span>
+									<span v-if="student.hours == 1">hour</span>
 								</div>
 							</div>
 						</div>

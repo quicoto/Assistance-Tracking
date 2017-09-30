@@ -69,6 +69,15 @@ const vm = new Vue({
 				studentsRef.child(student['id']).child('hours').set(newHours)
 			}
 		},
+		percentage: function(studentHours){
+			let percentage = false;
+
+			if (studentHours > 0) {
+				percentage = (studentHours * 100 / this.configuration.requiredHours).toFixed(1);
+			}
+
+			return percentage
+		},
 		logIn: function(event) {
 			event.target.disabled = true;
 			const promise = auth.signInWithEmailAndPassword(this.email, this.password);
