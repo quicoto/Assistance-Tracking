@@ -11,6 +11,9 @@ const studentsRef = db.ref('students');
 
 const auth = firebase.auth();
 
+// eslint-disable-next-line
+var rootRef = db.ref();
+console.log(rootRef);
 
 
 const vm = new Vue({
@@ -67,9 +70,13 @@ const vm = new Vue({
 				studentsRef.child(student['id']).child('hours').set(newHours)
 			}
 		},
-		logIn: function() {
+		logIn: function(event) {
+			event.target.disabled = true;
 			const promise = auth.signInWithEmailAndPassword(this.email, this.password);
-			promise.catch(e => console.log(e.message));
+			promise.catch(function(e) {
+				console.log(e.message);
+				event.target.disabled = false;
+			});
 		}
 	}
 })

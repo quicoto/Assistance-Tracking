@@ -37,14 +37,12 @@
 				<div class="col">
 					<form>
 						<div class="form-group">
-							<label for="email">Email</label>
 							<input v-model="email" type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email">
 						</div>
 						<div class="form-group">
-							<label for="password">Password</label>
 							<input v-model="password" type="password" class="form-control" id="password" placeholder="Password">
 						</div>
-						<button type="button" class="btn btn-primary" @click="logIn()">Log in</button>
+						<button type="button" class="btn btn-primary btn-block" @click="logIn($event)">Log in</button>
 					</form>
 				</div>
 			</div>
