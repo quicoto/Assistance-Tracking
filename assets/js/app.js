@@ -22,7 +22,8 @@ const vm = new Vue({
 		email: "",
 		password: "",
 		userIsLoggedIn: false,
-		students: false
+		students: false,
+		configuration: false
 	},
 	computed: {
 		orderedStudents: function () {
@@ -45,6 +46,7 @@ const vm = new Vue({
 				console.log('Signed in');
 				this.userIsLoggedIn = true;
 				this.$bindAsArray('students', db.ref('students'))
+				this.$bindAsObject('configuration', db.ref('config'))
 			} else {
 				console.log('Not logged in');
 			}

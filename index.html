@@ -16,7 +16,7 @@
 		<meta name="msapplication-config" content="assets/images/browserconfig.xml">
 
 		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-		<link rel="stylesheet" href="assets/css/custom.css?ver=1.0">
+		<link rel="stylesheet" href="assets/css/custom.css?ver=1.1">
 		<script src="assets/js/lodash.min.js"></script>
 		<script src="assets/js/vue.min.js"></script>
 		<script src="assets/js/firebase.js"></script>
@@ -49,6 +49,9 @@
 
 			<section v-if="students">
 				<div class="row">
+					<div class="col-12 text-center" v-if="configuration.startingDate">
+						<h5 class="startingDate text-secondary"><em>From {{configuration.startingDate}}</em></h5>
+					</div>
 					<div class="col">
 						<button v-if="multiplier === 1" type="button" class="btn btn-primary btn-block" v-on:click="multiplier = 2">Single class</button>
 						<button v-if="multiplier === 2" type="button" class="btn btn-primary btn-block" v-on:click="multiplier = 1">Double class</button>
@@ -87,6 +90,6 @@
 			</section>
 		</div>
 
-		<script src="assets/js/app.js?ver=1.0"></script>
+		<script src="assets/js/app.js?ver=1.1"></script>
 	</body>
 </html>
