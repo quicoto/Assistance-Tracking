@@ -18,12 +18,13 @@ console.log(rootRef);
 const vm = new Vue({
 	el: '#app',
 	data: {
-		multiplier: 2,
+		configuration: false,
 		email: "",
+		multiplier: 2,
 		password: "",
-		userIsLoggedIn: false,
 		students: false,
-		configuration: false
+		userIsLoggedIn: false,
+		listMode: false
 	},
 	computed: {
 		orderedStudents: function () {
