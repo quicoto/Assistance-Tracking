@@ -7,23 +7,22 @@ const firebaseApp = firebase.initializeApp({
 	messagingSenderId: "539712798069"
 })
 const db = firebaseApp.database();
-const studentsRef = db.ref('students');
 
 const auth = firebase.auth();
 
+// eslint-disable-next-line
+var rootRef = db.ref();
+console.log(rootRef);
 
 
 const vm = new Vue({
 	el: '#app',
-	firebase: {
-		students: studentsRef,
-		startingDate: db.ref('startingDate')
-	},
 	data: {
 		multiplier: 2,
 		email: "",
 		password: "",
-		userIsLoggedIn: false
+		userIsLoggedIn: false,
+		students: false
 	},
 	computed: {
 		orderedStudents: function () {
@@ -41,14 +40,15 @@ const vm = new Vue({
 		}
 	},
 	beforeCreate: function(){
-		auth.onAuthStateChanged(firebaseUser => {
+		auth.onAuthStateChanged(function(firebaseUser) {
 			if (firebaseUser) {
-				console.log(firebaseUser);
+				console.log('Signed in');
 				this.userIsLoggedIn = true;
+				this.$bindAsArray('students', db.ref('students'))
 			} else {
 				console.log('Not logged in');
 			}
-		});
+		}.bind(this));
 	},
 	methods: {
 		increaseTime: function(student) {
@@ -67,9 +67,23 @@ const vm = new Vue({
 				studentsRef.child(student['id']).child('hours').set(newHours)
 			}
 		},
-		logIn: function() {
+		logIn: function(event) {
+			event.target.disabled = true;
 			const promise = auth.signInWithEmailAndPassword(this.email, this.password);
-			promise.catch(e => console.log(e.message));
+			promise.catch(function(e) {
+				console.log(e.message);
+				event.target.disabled = false;
+			});
+		},
+		logOut: function() {
+			var _that = this;
+			auth.signOut().then(function() {
+			  console.log('Signed Out');
+			  // Empty students for security
+			  _that.students = false
+			}, function(error) {
+			  console.error('Sign Out Error', error);
+			});
 		}
 	}
 })
