@@ -18,11 +18,13 @@ console.log(rootRef);
 const vm = new Vue({
 	el: '#app',
 	data: {
-		multiplier: 2,
+		configuration: false,
 		email: "",
+		multiplier: 2,
 		password: "",
+		students: false,
 		userIsLoggedIn: false,
-		students: false
+		listMode: false
 	},
 	computed: {
 		orderedStudents: function () {
@@ -45,6 +47,7 @@ const vm = new Vue({
 				console.log('Signed in');
 				this.userIsLoggedIn = true;
 				this.$bindAsArray('students', db.ref('students'))
+				this.$bindAsObject('configuration', db.ref('config'))
 			} else {
 				console.log('Not logged in');
 			}
@@ -66,6 +69,15 @@ const vm = new Vue({
 			if ( firebase.auth().currentUser ) {
 				studentsRef.child(student['id']).child('hours').set(newHours)
 			}
+		},
+		percentage: function(studentHours){
+			let percentage = false;
+
+			if (studentHours > 0) {
+				percentage = (studentHours * 100 / this.configuration.requiredHours).toFixed(1);
+			}
+
+			return percentage
 		},
 		logIn: function(event) {
 			event.target.disabled = true;

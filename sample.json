@@ -1,6 +1,8 @@
 {
-	"startingDate": "28 September 2017",
-	"requiredHours": "26",
+	"config": {
+		"startingDate": "28 September 2017",
+		"requiredHours": "26"
+	},
 	"students": [
 		{
 			"id": 0,
