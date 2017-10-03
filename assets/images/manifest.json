@@ -1,5 +1,10 @@
 {
     "name": "Assistance Tracking",
+    "short_name": "Assistance Tracking",
+    "start_url": ".",
+    "description": "Tracking class assistance web app",
+    "display": "standalone",
+    "orientation": "portrait",
     "icons": [
         {
             "src": "assets/images/android-chrome-192x192.png",
