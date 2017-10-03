@@ -10,11 +10,6 @@ const db = firebaseApp.database();
 
 const auth = firebase.auth();
 
-// eslint-disable-next-line
-var rootRef = db.ref();
-console.log(rootRef);
-
-
 const vm = new Vue({
 	el: '#app',
 	data: {
@@ -67,7 +62,7 @@ const vm = new Vue({
 		saveTime: function(student, newHours){
 			// We have user logged in, we can save to DB
 			if ( firebase.auth().currentUser ) {
-				studentsRef.child(student['id']).child('hours').set(newHours)
+				db.ref('students').child(student['id']).child('hours').set(newHours)
 			}
 		},
 		percentage: function(studentHours){
