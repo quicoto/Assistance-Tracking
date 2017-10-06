@@ -1,0 +1,59 @@
+{
+  "root": true,
+  "extends": [
+        "airbnb-base"
+  ],
+  "globals": {
+    "_": true,
+    "firebase": true,
+    "Vue": true
+  },
+  "rules": {
+    radix: ["error", "as-needed"],
+    "valid-jsdoc": ["error", {
+      "prefer": {
+        "arg": "param",
+        "argument": "param",
+        "class": "constructor",
+        "return": "return",
+        "virtual": "abstract"
+      },
+      "preferType": {
+        "Function": "function",
+        "Boolean": "boolean",
+        "Number": "number",
+        "object": "object",
+        "String": "string"
+      },
+      "requireReturn": false,
+      "requireParamDescription": false,
+      "requireReturnDescription": false
+    }],
+    "quotes": ["error", "backtick"],
+    "no-param-reassign": ["error", { "props": false }],
+    "padding-line-between-statements": [
+      "error",
+      { "blankLine": "always", "prev": "*", "next": "return" },
+      { "blankLine": "always", "prev": ["const", "let", "var"], "next": "*"},
+      { "blankLine": "any",    "prev": ["const", "let", "var"], "next": ["const", "let", "var"]},
+      { "blankLine": "always", "prev": "directive", "next": "*" },
+      { "blankLine": "any",    "prev": "directive", "next": "directive" }
+    ],
+    "comma-dangle": ["error", "never"],
+    "no-multiple-empty-lines": ["error", { "max": 1 } ],
+    "max-len": [
+      "error",
+      {
+        "ignoreUrls": true,
+        "code": 100
+      }
+    ],
+    "semi": [
+      "error",
+      "never"
+    ]
+  },
+  "env": {
+    "browser": true
+  }
+}

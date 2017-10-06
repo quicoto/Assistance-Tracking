@@ -1,96 +1,103 @@
 const firebaseApp = firebase.initializeApp({
-	apiKey: "AIzaSyD55hWzofdzvhaq7Rl11rm72cXTM3WJDLY",
-	authDomain: "hdgd-classes.firebaseapp.com",
-	databaseURL: "https://hdgd-classes.firebaseio.com",
-	projectId: "hdgd-classes",
-	storageBucket: "hdgd-classes.appspot.com",
-	messagingSenderId: "539712798069"
+  apiKey: `AIzaSyD55hWzofdzvhaq7Rl11rm72cXTM3WJDLY`,
+  authDomain: `hdgd-classes.firebaseapp.com`,
+  databaseURL: `https://hdgd-classes.firebaseio.com`,
+  projectId: `hdgd-classes`,
+  storageBucket: `hdgd-classes.appspot.com`,
+  messagingSenderId: `539712798069`
 })
-const db = firebaseApp.database();
+const db = firebaseApp.database()
 
-const auth = firebase.auth();
+const auth = firebase.auth()
 
 const vm = new Vue({
-	el: '#app',
-	data: {
-		configuration: false,
-		email: "",
-		multiplier: 2,
-		password: "",
-		students: false,
-		userIsLoggedIn: false,
-		listMode: false
-	},
-	computed: {
-		orderedStudents: function () {
-			return _.orderBy(this.students, 'name')
-		}
-	},
-	mounted: function (){
-		const now = new Date();
-		const today = now.getDay();
+  el: `#app`,
+  data: {
+    configuration: false,
+    email: ``,
+    multiplier: 2,
+    password: ``,
+    students: false,
+    userIsLoggedIn: false,
+    listMode: false
+  },
+  computed: {
+    orderedStudents() {
+      return _.orderBy(this.students, `name`)
+    }
+  },
+  mounted() {
+    const now = new Date()
+    const today = now.getDay()
 
-		// Thuesday or Thursday
-		// 1 hour, so it's single class multiplier
-		if (today === 2 || today === 4) {
-			this.multiplier = 1;
-		}
-	},
-	beforeCreate: function(){
-		auth.onAuthStateChanged(function(firebaseUser) {
-			if (firebaseUser) {
-				console.log('Signed in');
-				this.userIsLoggedIn = true;
-				this.$bindAsArray('students', db.ref('students'))
-				this.$bindAsObject('configuration', db.ref('config'))
-			} else {
-				console.log('Not logged in');
-			}
-		}.bind(this));
-	},
-	methods: {
-		increaseTime: function(student) {
-			const newHours = parseInt(student['hours']) + parseInt(this.multiplier);
+    // Thuesday or Thursday
+    // 1 hour, so it's single class multiplier
+    if (today === 2 || today === 4) {
+      this.multiplier = 1
+    }
+  },
+  beforeCreate() {
+    auth.onAuthStateChanged((firebaseUser) => {
+      if (firebaseUser) {
+        // eslint-disable-next-line no-console
+        console.log(`Signed in`)
+        this.userIsLoggedIn = true
+        this.$bindAsArray(`students`, db.ref(`students`))
+        this.$bindAsObject(`configuration`, db.ref(`config`))
+      } else {
+        // eslint-disable-next-line no-console
+        console.log(`Not logged in`)
+      }
+    })
+  },
+  methods: {
+    increaseTime(student) {
+      const newHours = parseInt(student.hours) + parseInt(this.multiplier)
 
-			this.saveTime(student, newHours);
-		},
-		decreaseTime: function(student) {
-			const newHours = parseInt(student['hours']) - parseInt(this.multiplier);
+      this.saveTime(student, newHours)
+    },
+    decreaseTime(student) {
+      const newHours = parseInt(student.hours) - parseInt(this.multiplier)
 
-			this.saveTime(student, newHours);
-		},
-		saveTime: function(student, newHours){
-			// We have user logged in, we can save to DB
-			if ( firebase.auth().currentUser ) {
-				db.ref('students').child(student['id']).child('hours').set(newHours)
-			}
-		},
-		percentage: function(studentHours){
-			let percentage = false;
+      this.saveTime(student, newHours)
+    },
+    saveTime(student, newHours) {
+      // We have user logged in, we can save to DB
+      if (firebase.auth().currentUser) {
+        db.ref(`students`).child(student.id).child(`hours`).set(newHours)
+      }
+    },
+    percentage(studentHours) {
+      let percentage = false
 
-			if (studentHours > 0) {
-				percentage = (studentHours * 100 / this.configuration.requiredHours).toFixed(1);
-			}
+      if (studentHours > 0) {
+        percentage = ((studentHours * 100) / this.configuration.requiredHours).toFixed(1)
+      }
 
-			return percentage
-		},
-		logIn: function(event) {
-			event.target.disabled = true;
-			const promise = auth.signInWithEmailAndPassword(this.email, this.password);
-			promise.catch(function(e) {
-				console.log(e.message);
-				event.target.disabled = false;
-			});
-		},
-		logOut: function() {
-			var _that = this;
-			auth.signOut().then(function() {
-			  console.log('Signed Out');
-			  // Empty students for security
-			  _that.students = false
-			}, function(error) {
-			  console.error('Sign Out Error', error);
-			});
-		}
-	}
+      return percentage
+    },
+    logIn(event) {
+      event.target.disabled = true
+      const promise = auth.signInWithEmailAndPassword(this.email, this.password)
+
+      promise.catch((e) => {
+        // eslint-disable-next-line no-console
+        console.log(e.message)
+        event.target.disabled = false
+      })
+    },
+    logOut() {
+      const that = this
+
+      auth.signOut().then(() => {
+        // eslint-disable-next-line no-console
+        console.log(`Signed Out`)
+        // Empty students for security
+        that.students = false
+      }, (error) => {
+        // eslint-disable-next-line no-console
+        console.error(`Sign Out Error`, error)
+      })
+    }
+  }
 })
