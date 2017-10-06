@@ -29,7 +29,6 @@
 			<div class="row justify-content-md-center">
 				<div class="col">
 					<h2 class="site-title text-center">Assitance Tracking</h2>
-					<!-- <h3>from {{ startingDate }}</h3> -->
 				</div>
 			</div>
 
@@ -50,7 +49,8 @@
 			<section v-if="students">
 				<div class="row justify-content-center">
 					<div class="col-12 text-center" v-if="configuration.startingDate">
-						<h5 class="startingDate text-secondary"><em>From {{configuration.startingDate}}</em></h5>
+						<h5 class="startingDate text-secondary">From {{configuration.startingDate}}</h5>
+						<h6 class="startingDate text-secondary">Minimum assistance set to {{configuration.minimumAssistance}}%</h6>
 					</div>
 					<div class="col-6 col-md-4">
 						<button v-if="multiplier === 1" type="button" class="btn btn-primary btn-block" v-on:click="multiplier = 2">Single class</button>
@@ -117,7 +117,7 @@
 						<td>{{configuration.requiredHours}}</td>
 						<td>{{student.hours}}</td>
 						<td>
-							<span v-if="percentage(student.hours)">
+							<span v-if="percentage(student.hours)" :class="[percentage(student.hours) >= configuration.minimumAssistance ? 'text-success' : 'text-danger']">
 								{{percentage(student.hours)}}%
 							</span>
 							<span v-else>
