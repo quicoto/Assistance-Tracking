@@ -19,7 +19,24 @@ const vm = new Vue({
     password: ``,
     students: false,
     userIsLoggedIn: false,
-    listMode: false
+    listMode: false,
+    translations: {
+      done: `Done`,
+      doubleClass: `Double class`,
+      fromDate: `From %s`,
+      hour: `hour`,
+      hours: `hours`,
+      listMode: `List Mode`,
+      logIn: `Log in`,
+      logOut: `Log out`,
+      minimumAssistance: `Minimum assistance set to %s%`,
+      on: `ON`,
+      off: `OFF`,
+      required: `Required`,
+      singleClass: `Single class`,
+      siteTitle: `Assitance Tracking`,
+      student: `Student`
+    }
   },
   computed: {
     orderedStudents() {

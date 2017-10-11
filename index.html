@@ -28,7 +28,7 @@
 		<div id="app" v-cloak>
 			<div class="row justify-content-md-center">
 				<div class="col">
-					<h2 class="site-title text-center">Assitance Tracking</h2>
+					<h2 class="site-title text-center">{{translations.siteTitle}}</h2>
 				</div>
 			</div>
 
@@ -41,7 +41,7 @@
 						<div class="form-group">
 							<input v-model="password" type="password" class="form-control" id="password" placeholder="Password">
 						</div>
-						<button type="button" class="btn btn-primary btn-block" @click="logIn($event)">Log in</button>
+						<button type="button" class="btn btn-primary btn-block" @click="logIn($event)">{{translations.logIn}}</button>
 					</form>
 				</div>
 			</div>
@@ -49,18 +49,18 @@
 			<section v-if="students">
 				<div class="row justify-content-center">
 					<div class="col-12 text-center" v-if="configuration.startingDate">
-						<h5 class="startingDate text-secondary">From {{configuration.startingDate}}</h5>
-						<h6 class="startingDate text-secondary">Minimum assistance set to {{configuration.minimumAssistance}}%</h6>
+						<h5 class="startingDate text-secondary">{{translations.fromDate.replace('%s', configuration.startingDate)}}</h5>
+						<h6 class="startingDate text-secondary">{{translations.minimumAssistance.replace('%s', configuration.minimumAssistance)}}</h6>
 					</div>
 					<div class="col-6 col-md-4">
-						<button v-if="multiplier === 1" type="button" class="btn btn-primary btn-block" v-on:click="multiplier = 2">Single class</button>
-						<button v-if="multiplier === 2" type="button" class="btn btn-primary btn-block" v-on:click="multiplier = 1">Double class</button>
+						<button v-if="multiplier === 1" type="button" class="btn btn-primary btn-block" v-on:click="multiplier = 2">{{translations.singleClass}}</button>
+						<button v-if="multiplier === 2" type="button" class="btn btn-primary btn-block" v-on:click="multiplier = 1">{{translations.doubleClass}}</button>
 					</div>
 					<div class="col-6 col-md-4">
 						<button type="button" class="btn btn-block btn-primary" v-on:click="listMode = !listMode">
-							List Mode
-							<span v-if="listMode">ON</span>
-							<span v-if="!listMode">OFF</span>
+							{{translations.listMode}}
+							<span v-if="listMode">{{translations.on}}</span>
+							<span v-if="!listMode">{{translations.off}}</span>
 						</button>
 					</div>
 				</div>
@@ -89,8 +89,8 @@
 								<span v-else>
 									-
 								</span>
-								<span v-if="student.hours > 0 && student.hours > 1">hours</span>
-								<span v-if="student.hours == 1">hour</span>
+								<span v-if="student.hours > 0 && student.hours > 1">{{translations.hours}}</span>
+								<span v-if="student.hours == 1">{{translations.hour}}</span>
 							</div>
 						</div>
 					</div>
@@ -98,7 +98,7 @@
 
 				<div class="row justify-content-md-center">
 					<div class="col-md-8">
-						<button type="button" class="btn btn-dark btn-block" @click="logOut()">Log out</button>
+						<button type="button" class="btn btn-dark btn-block" @click="logOut()">{{translations.logOut}}</button>
 					</div>
 				</div>
 			</section>
@@ -106,9 +106,9 @@
 				<table class="table table-striped table-responsive studentListMode">
 					<thead>
 						<tr>
-							<th>Student</th>
-							<th>Required</th>
-							<th>Done</th>
+							<th>{{translations.student}}</th>
+							<th>{{translations.required}}</th>
+							<th>{{translations.done}}</th>
 							<th>%</th>
 						</tr>
 					</thead>
