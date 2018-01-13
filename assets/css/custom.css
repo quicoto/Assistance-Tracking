@@ -27,6 +27,17 @@ body {
     padding-top: 25px;
 }
 
+.student-name {
+    padding-top: 10px;
+}
+
+.kwanjangnim > .row,
+.student > .row {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 15px;
+}
+
+.kwanjangnim,
 .student {
     padding-bottom: 15px;
 }
@@ -41,5 +52,5 @@ body {
 }
 
 .studentListMode {
-    margin-top: 15px;    
+    margin-top: 15px;
 }
