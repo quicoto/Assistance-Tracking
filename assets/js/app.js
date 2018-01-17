@@ -59,14 +59,15 @@ const vm = new Vue({
         if (student) {
             const newHours = parseInt(student.hours) + parseInt(this.multiplier)
 
-            this.updateStudentField(student, 'hours', newHours)
+            this.updateStudentField(student, `hours`, newHours)
         }
 
         if (kwanjangnim) {
             // Increase the RequiredHours for all students
             for (var i = 0, len = this.students.length; i < len; i++) {
                 const newRequiredHours = parseInt(this.students[i].requiredHours) + parseInt(this.multiplier)
-                this.updateStudentField(this.students[i], 'requiredHours', newRequiredHours)
+
+                this.updateStudentField(this.students[i], `requiredHours`, newRequiredHours)
             }
         }
     },
@@ -74,14 +75,15 @@ const vm = new Vue({
         if (student) {
             const newHours = parseInt(student.hours) - parseInt(this.multiplier)
 
-            this.updateStudentField(student, 'hours', newHours)
+            this.updateStudentField(student, `hours`, newHours)
         }
 
         if (kwanjangnim) {
             // Decrease the RequiredHours for all students
             for (var i = 0, len = this.students.length; i < len; i++) {
                 const newRequiredHours = parseInt(this.students[i].requiredHours) - parseInt(this.multiplier)
-                this.updateStudentField(this.students[i], 'requiredHours', newRequiredHours)
+
+                this.updateStudentField(this.students[i], `requiredHours`, newRequiredHours)
             }
         }
     },
