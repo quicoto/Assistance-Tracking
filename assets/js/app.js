@@ -13,26 +13,19 @@ const auth = firebase.auth()
 const vm = new Vue({
   el: `#app`,
   data: {
-    configuration: false,
     email: ``,
+    minimumPercentage: 80,
     multiplier: 2,
     password: ``,
     students: false,
     userIsLoggedIn: false,
-    listMode: false,
     translations: {
-      done: `Done`,
       doubleClass: `Double class`,
-      fromDate: `From %s`,
       hour: `hour`,
       hours: `hours`,
-      listMode: `List Mode`,
       logIn: `Log in`,
       logOut: `Log out`,
-      minimumAssistance: `Minimum assistance set to %s%`,
-      on: `ON`,
-      off: `OFF`,
-      required: `Required`,
+      of: `of`,
       singleClass: `Single class`,
       siteTitle: `Assitance Tracking`,
       student: `Student`
@@ -56,39 +49,57 @@ const vm = new Vue({
   beforeCreate() {
     auth.onAuthStateChanged((firebaseUser) => {
       if (firebaseUser) {
-        // eslint-disable-next-line no-console
-        console.log(`Signed in`)
         this.userIsLoggedIn = true
         this.$bindAsArray(`students`, db.ref(`students`))
-        this.$bindAsObject(`configuration`, db.ref(`config`))
-      } else {
-        // eslint-disable-next-line no-console
-        console.log(`Not logged in`)
       }
     })
   },
   methods: {
-    increaseTime(student) {
-      const newHours = parseInt(student.hours) + parseInt(this.multiplier)
+    increaseTime(student, kwanjangnim) {
+        if (student) {
+            const newHours = parseInt(student.hours) + parseInt(this.multiplier)
 
-      this.saveTime(student, newHours)
-    },
-    decreaseTime(student) {
-      const newHours = parseInt(student.hours) - parseInt(this.multiplier)
+            this.updateStudentField(student, `hours`, newHours)
+        }
 
-      this.saveTime(student, newHours)
+        if (kwanjangnim) {
+            // Increase the RequiredHours for all students
+            for (var i = 0, len = this.students.length; i < len; i++) {
+                const newRequiredHours = parseInt(this.students[i].requiredHours) + parseInt(this.multiplier)
+
+                this.updateStudentField(this.students[i], `requiredHours`, newRequiredHours)
+            }
+        }
     },
-    saveTime(student, newHours) {
+    decreaseTime(student, kwanjangnim) {
+        if (student) {
+            const newHours = parseInt(student.hours) - parseInt(this.multiplier)
+
+            this.updateStudentField(student, `hours`, newHours)
+        }
+
+        if (kwanjangnim) {
+            // Decrease the RequiredHours for all students
+            for (var i = 0, len = this.students.length; i < len; i++) {
+                const newRequiredHours = parseInt(this.students[i].requiredHours) - parseInt(this.multiplier)
+
+                this.updateStudentField(this.students[i], `requiredHours`, newRequiredHours)
+            }
+        }
+    },
+    updateStudentField(student, field, value) {
       // We have user logged in, we can save to DB
       if (firebase.auth().currentUser) {
-        db.ref(`students`).child(student.id).child(`hours`).set(newHours)
+          if (student && field && value) {
+            db.ref(`students`).child(student.id).child(field).set(value)
+          }
       }
     },
-    percentage(studentHours) {
+    percentage(student) {
       let percentage = false
 
-      if (studentHours > 0) {
-        percentage = ((studentHours * 100) / this.configuration.requiredHours).toFixed(1)
+      if (student.hours > 0) {
+        percentage = ((student.hours * 100) / (student.requiredHours / 2)).toFixed(1)
       }
 
       return percentage
@@ -98,8 +109,6 @@ const vm = new Vue({
       const promise = auth.signInWithEmailAndPassword(this.email, this.password)
 
       promise.catch((e) => {
-        // eslint-disable-next-line no-console
-        console.log(e.message)
         event.target.disabled = false
       })
     },
@@ -107,8 +116,6 @@ const vm = new Vue({
       const that = this
 
       auth.signOut().then(() => {
-        // eslint-disable-next-line no-console
-        console.log(`Signed Out`)
         // Empty students for security
         that.students = false
       }, (error) => {

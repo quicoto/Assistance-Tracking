@@ -1,13 +1,13 @@
 {
   "root": true,
-  "extends": [
-        "airbnb-base"
-  ],
   "globals": {
     "_": true,
     "firebase": true,
     "Vue": true
   },
+  "parserOptions": {
+   "ecmaVersion": 6
+   },
   "rules": {
     radix: ["error", "as-needed"],
     "valid-jsdoc": ["error", {
