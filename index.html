@@ -59,15 +59,16 @@
 				<div class="row justify-content-md-center student-list">
 					<div class="col-12 col-md-8 kwanjangnim" v-for="kwanjangnim">
 						<div class="row text-success">
+
+							<div class="col-2">
+								<button type="button" class="btn btn-success btn-block" v-on:click="increaseTime(false, true)">+</button>
+							</div>
+
 							<div class="col-5 text-center">
 								Kwanjangnim
 							</div>
 
 							<div class="col-3 text-center"></div>
-
-							<div class="col-2">
-								<button type="button" class="btn btn-success btn-block" v-on:click="increaseTime(false, true)">+</button>
-							</div>
 
 							<div class="col-2">
 								<button type="button" class="btn btn-danger btn-block" v-on:click="decreaseTime(false, true)">-</button>
@@ -76,6 +77,10 @@
 					</div>
 					<div class="col-12 col-md-8 student" v-for="student in orderedStudents">
 						<div class="row">
+							<div class="col-2">
+								<button type="button" class="btn btn-success btn-block" v-on:click="increaseTime(student, false)">+</button>
+							</div>
+
 							<div class="col-5 text-center student-name">
 								{{ student.name }}
 							</div>
@@ -97,10 +102,6 @@
 									<!-- /.col-12 -->
 								</div>
 								<!-- /.row -->
-							</div>
-
-							<div class="col-2">
-								<button type="button" class="btn btn-success btn-block" v-on:click="increaseTime(student, false)">+</button>
 							</div>
 
 							<div class="col-2">
