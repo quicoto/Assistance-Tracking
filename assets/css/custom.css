@@ -32,8 +32,12 @@ body {
 }
 
 .kwanjangnim > .row,
-.student > .row {
+.student .second-row {
     border-bottom: 1px solid #ddd;
+    padding-bottom: 15px;
+}
+
+.student > .row {
     padding-bottom: 15px;
 }
 
@@ -53,4 +57,8 @@ body {
 
 .studentListMode {
     margin-top: 15px;
+}
+
+.save-notes {
+    margin-top: 10px;
 }

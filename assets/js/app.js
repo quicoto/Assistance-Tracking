@@ -90,7 +90,10 @@ const vm = new Vue({
     updateStudentField(student, field, value) {
       // We have user logged in, we can save to DB
       if (firebase.auth().currentUser) {
-          if (student && field && value) {
+          if (
+            typeof student !== `undefined` &&
+            typeof field !== `undefined` &&
+            typeof value !== `undefined`) {
             db.ref(`students`).child(student.id).child(field).set(value)
           }
       }

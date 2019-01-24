@@ -16,10 +16,10 @@
 		<meta name="msapplication-config" content="assets/images/browserconfig.xml">
 
 		<link rel="stylesheet" href="assets/css/bootstrap.min.css">
-		<link rel="stylesheet" href="assets/css/custom.css?ver=1.4">
+		<link rel="stylesheet" href="assets/css/custom.css?ver=1.5">
 		<script src="assets/js/lodash.min.js"></script>
 		<script src="assets/js/vue.min.js"></script>
-		<script src="assets/js/firebase.js?ver=4.12.0"></script>
+		<script src="assets/js/firebase.js?ver=5.8.0"></script>
 		<script src="assets/js/vuefire.min.js"></script>
 	</head>
 
@@ -76,12 +76,12 @@
 						</div>
 					</div>
 					<div class="col-12 col-md-8 student" v-for="student in orderedStudents">
-						<div class="row">
+						<div class="row" :class="!student.showNotes ? 'second-row' : ''">
 							<div class="col-2">
 								<button type="button" class="btn btn-success btn-block" v-on:click="increaseTime(student, false)">+</button>
 							</div>
 
-							<div class="col-5 text-center student-name">
+							<div class="col-5 text-center student-name" @click="student.showNotes = !student.showNotes; updateStudentField(student, 'showNotes', student.showNotes);">
 								{{ student.name }}
 							</div>
 
@@ -98,18 +98,23 @@
 										<span v-else>
 											-
 										</span>
-									</div>
-									<!-- /.col-12 -->
-								</div>
-								<!-- /.row -->
-							</div>
+									</div> <!-- /.col-12 -->
+								</div> <!-- /.row -->
+							</div> <!-- .col-3 -->
 
 							<div class="col-2">
 								<button type="button" class="btn btn-danger btn-block" v-on:click="decreaseTime(student, false)">-</button>
 							</div>
-						</div>
-					</div>
-				</div>
+						</div> <!-- .row -->
+
+						<div class="row second-row" v-show="student.showNotes">
+							<div class="col-12">
+								<textarea class="form-control" v-model="student.notes" name="notes" rows="10" @change="updateStudentField(student, 'notes', student.notes)"></textarea>
+								<button class="btn btn-dark btn-block save-notes" @click="updateStudentField(student, 'notes', student.notes)">Save notes</button>
+							</div> <!-- .col-12 -->
+						</div> <!-- .row -->
+					</div> <!-- .row -->
+				</div> <!-- section -->
 
 				<div class="row justify-content-md-center">
 					<div class="col-md-8">
@@ -119,6 +124,6 @@
 			</section>
 		</div>
 
-		<script src="assets/js/app.js?ver=1.2"></script>
+		<script src="assets/js/app.js?ver=1.3"></script>
 	</body>
 </html>
