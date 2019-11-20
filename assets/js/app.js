@@ -29,7 +29,8 @@ const vm = new Vue({
       singleClass: `Single class`,
       siteTitle: `Assitance Tracking`,
       student: `Student`
-    }
+    },
+    updated: []
   },
   computed: {
     orderedStudents() {

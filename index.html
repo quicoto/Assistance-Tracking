@@ -75,14 +75,14 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-12 col-md-8 student" v-for="student in orderedStudents">
+					<div class="col-12 col-md-8 student" v-for="(student, index) in orderedStudents">
 						<div class="row" :class="!student.showNotes ? 'second-row' : ''">
 							<div class="col-2">
-								<button type="button" class="btn btn-success btn-block" v-on:click="increaseTime(student, false)">+</button>
+								<button type="button" class="btn btn-success btn-block" v-on:click="increaseTime(student, false); updated[index] = true;">+</button>
 							</div>
 
 							<div class="col-5 text-center student-name" @click="student.showNotes = !student.showNotes; updateStudentField(student, 'showNotes', student.showNotes);">
-								{{ student.name }}
+								{{ student.name }} <span v-if="updated[index]">✅</span>
 							</div>
 
 							<div class="col-3 text-center">
@@ -103,7 +103,7 @@
 							</div> <!-- .col-3 -->
 
 							<div class="col-2">
-								<button type="button" class="btn btn-danger btn-block" v-on:click="decreaseTime(student, false)">-</button>
+								<button type="button" class="btn btn-danger btn-block" v-on:click="decreaseTime(student, false); updated[index] = false;">-</button>
 							</div>
 						</div> <!-- .row -->
 
@@ -124,6 +124,6 @@
 			</section>
 		</div>
 
-		<script src="assets/js/app.js?ver=1.3"></script>
+		<script src="assets/js/app.js?ver=1.4"></script>
 	</body>
 </html>
